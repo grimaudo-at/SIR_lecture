@@ -237,10 +237,6 @@ Let's leave $\beta$ at 0.5 and $\gamma$ at 0.1 and vary the value of $\theta$ to
 </br>
 </br>
 </br>
-</br>
-</br>
-</br>
-</br>
 
 Now, set $\theta$ back to 0.001 (a pretty low rate of vaccination uptake), but vary the starting size of the vaccinated class to be 0.1, 0.4, and 0.8. Again, draw each graph below, labeling with the initial size of the vaccinated population. What pattern do you observe? What is this reduction in pathogen transmission due to the reduction of the susceptible class called? Hint: think about cows. 
 </br>

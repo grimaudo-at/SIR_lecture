@@ -516,13 +516,13 @@ vaccination class (if you add a new parameter, let’s make it theta
 <em>dS</em> = </br> </br> </br> <em>dI</em> = </br> </br> </br>
 <em>dR</em> = </br> </br> </br> <em>dV</em> = </br> </br> </br> Now
 let’s define a new function for our revised SIR model with vaccination.
-Let’s call the function <em>SIRv()</em>. Write the code for the
-equations:</p>
+Let’s call the function <em>SIRv()</em>. Extend the code you’ve already
+written to incorporate vaccination:</p>
 <pre class="r"><code>SIRv &lt;- function(time, state, parameters) {
   with(as.list(c(state, parameters)), {
-    dS &lt;- 
-    dI &lt;- 
-    dR &lt;-
+    dS &lt;- (-beta * S * I)
+    dI &lt;- (beta * S * I) - (gamma * I)
+    dR &lt;-(gamma * I)
     dV &lt;-  
     return(list(c(dS, dI, dR, dV)))
   })
@@ -558,7 +558,7 @@ SIRv.plot &lt;- ggplot(aes(x=time, y=proportion, color=state), data=output)+
 across all of these scenarios.</strong> Again, draw each of the graphs
 below, labeling each with the value of <span class="math inline">\(\theta\)</span>. What pattern do you observe?
 </br> </br> </br> </br> </br> </br> </br> </br> </br> </br> </br> </br>
-</br> </br> </br> </br> </br> </br></p>
+</br> </br></p>
 <p>Now, set <span class="math inline">\(\theta\)</span> back to 0.001 (a
 pretty low rate of vaccination uptake), but vary the starting size of
 the vaccinated class to be 0.1, 0.4, and 0.8. Again, draw each graph
