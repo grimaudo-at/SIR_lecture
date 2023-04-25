@@ -12,9 +12,9 @@ library(tidyr)
 # Define SIR model function
 SIR <- function(time, state, parameters) {
   with(as.list(c(state, parameters)), {
-    dS <- #Need an equation!
-    dI <- #Need an equation!
-    dR <- #Need an equation!
+    dS <- 
+    dI <- 
+    dR <- 
     return(list(c(dS, dI, dR)))
   })
 }
@@ -27,11 +27,11 @@ times <- seq(0, 400, by = 0.01)
 #Define initial state sizes. These are in units of the proportion of the population.
 initial.I <- 0.0001
 initial.R <- 0
-initial.S <- 1-initial.I-initial.R
+initial.S <- 
 
 # Set initial values and parameters
 initial.values <- c(S = initial.S, I = initial.I, R = initial.R) 
-parameters <- c(beta = 0.4, gamma = 0.1)
+parameters <- c(beta = 0.2, gamma = 0.1)
 
 #The function ode() comes from the deSolve package that you loaded at the beginning of the script. It 'solves' your equation, but you need to give
 #it your model in form of a function (your SIR() function), the starting values, the parameters, and the time series you want to simulate on. 
@@ -50,4 +50,34 @@ SIR.plot <- ggplot(aes(x=time, y=proportion, color=state), data=output)+
 
 
 
-### Adding vaccination class with waning immunity:
+### SIR model with vaccination intervention
+SIRv <- function(time, state, parameters) {
+  with(as.list(c(state, parameters)), {
+    dS <- (-beta * S * I)
+    dI <- (beta * S * I) - (gamma * I)
+    dR <- (gamma * I)
+    dV <- 
+    return(list(c(dS, dI, dR, dV)))
+  })
+}
+#As in the first SIR model, this assumes that once you have gained immunity, either through infection or from vaccination, 
+#you are completely immune for life.
+
+#Define initial state sizes. These are in units of the proportion of the population.
+initial.I <- 0.0001
+initial.R <- 0
+initial.V <- 0
+initial.S <- 1-initial.I-initial.R-initial.V
+
+# Set initial values and parameters
+initial.values <- c(S = initial.S, I = initial.I, R = initial.R, V = initial.V) 
+parameters <- c(beta = 0.5, gamma = 0.1, theta = 0.001)
+
+output<- as.data.frame(ode(func = SIRv, y = initial.values, parms = parameters, times = times)) %>%
+  pivot_longer(!time, names_to="state",values_to="proportion") 
+#View(output)
+
+SIRv.plot <- ggplot(aes(x=time, y=proportion, color=state), data=output)+
+  geom_line()+
+  scale_y_continuous(limits=c(0,1), breaks=c(0,0.25,0.5,0.75,1))+
+  scale_color_manual(values=c("red2","blue3","green4","purple"));SIRv.plot
